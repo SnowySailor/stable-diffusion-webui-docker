@@ -8,13 +8,13 @@ x-base_service: &base_service
       - &v2 ./output:/output
     stop_signal: SIGKILL
     tty: true
-    deploy:
-      resources:
-        reservations:
-          devices:
-              - driver: nvidia
-                device_ids: ['0']
-                capabilities: [compute, utility]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #           - driver: nvidia
+    #             device_ids: ['0']
+    #             capabilities: [compute, utility]
 
 name: webui-docker
 
@@ -29,9 +29,12 @@ services:
     <<: *base_service
     profiles: ["auto"]
     build: ./services/AUTOMATIC1111
-    image: sd-auto:72
+    image: sd-auto:73
+    # volumes:
+    #   - 
     environment:
-      - CLI_ARGS=--allow-code --medvram --xformers --enable-insecure-extension-access --api
+      - CLI_ARGS=--use-cpu all --no-half --no-half-vae --skip-torch-cuda-test --enable-insecure-extension-access
+      # - CLI_ARGS=--allow-code --enable-insecure-extension-access --api
 
   auto-cpu:
     <<: *automatic
