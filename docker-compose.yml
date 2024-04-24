@@ -5,16 +5,16 @@ x-base_service: &base_service
       - "${WEBUI_PORT:-7860}:7860"
     volumes:
       - &v1 ./data:/data
-      - &v2 ./output:/output
+      - &v2 /mnt/hammock/local/pictures/diffusion:/output
     stop_signal: SIGKILL
     tty: true
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #           - driver: nvidia
-    #             device_ids: ['0']
-    #             capabilities: [compute, utility]
+    deploy:
+      resources:
+        reservations:
+          devices:
+              - driver: nvidia
+                device_ids: ['0']
+                capabilities: [compute, utility]
 
 name: webui-docker
 
@@ -30,47 +30,12 @@ services:
     profiles: ["auto"]
     build: ./services/AUTOMATIC1111
     image: sd-auto:73
-    # volumes:
-    #   - 
     environment:
-      - CLI_ARGS=--use-cpu all --no-half --no-half-vae --skip-torch-cuda-test --enable-insecure-extension-access
-      # - CLI_ARGS=--allow-code --enable-insecure-extension-access --api
+      - CLI_ARGS=--allow-code --enable-insecure-extension-access --api
 
   auto-cpu:
     <<: *automatic
     profiles: ["auto-cpu"]
     deploy: {}
     environment:
-      - CLI_ARGS=--no-half --precision full --allow-code --enable-insecure-extension-access --api
-
-  invoke: &invoke
-    <<: *base_service
-    profiles: ["invoke"]
-    build: ./services/invoke/
-    image: sd-invoke:30
-    environment:
-      - PRELOAD=true
-      - CLI_ARGS=--xformers
-
-  # invoke-cpu:
-  #   <<: *invoke
-  #   profiles: ["invoke-cpu"]
-  #   environment:
-  #     - PRELOAD=true
-  #     - CLI_ARGS=--always_use_cpu
-
-  comfy: &comfy
-    <<: *base_service
-    profiles: ["comfy"]
-    build: ./services/comfy/
-    image: sd-comfy:6
-    environment:
-      - CLI_ARGS=
-
-
-  comfy-cpu:
-    <<: *comfy
-    profiles: ["comfy-cpu"]
-    deploy: {}
-    environment:
-      - CLI_ARGS=--cpu
+      - CLI_ARGS=--use-cpu all --no-half --no-half-vae --skip-torch-cuda-test --enable-insecure-extension-access
