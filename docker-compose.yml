@@ -31,7 +31,7 @@ services:
     build: ./services/AUTOMATIC1111
     image: sd-auto:73
     environment:
-      - CLI_ARGS=--allow-code --enable-insecure-extension-access --api
+      - CLI_ARGS=--allow-code --enable-insecure-extension-access --api --xformers --opt-split-attention
 
   auto-cpu:
     <<: *automatic
