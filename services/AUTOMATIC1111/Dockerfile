@@ -14,7 +14,7 @@ RUN . /clone.sh clip-interrogator https://github.com/pharmapsychotic/clip-interr
 RUN . /clone.sh generative-models https://github.com/Stability-AI/generative-models main
 RUN . /clone.sh stable-diffusion-webui-assets https://github.com/AUTOMATIC1111/stable-diffusion-webui-assets.git master
 
-FROM pytorch/pytorch:2.2.2-cuda12.1-cudnn8-runtime
+FROM pytorch/pytorch:2.4.1-cuda12.4-cudnn9-runtime
 
 ENV DEBIAN_FRONTEND=noninteractive PIP_PREFER_BINARY=1
 
@@ -39,11 +39,12 @@ RUN mkdir ${ROOT}/interrogate && cp ${ROOT}/repositories/clip-interrogator/clip_
 RUN --mount=type=cache,target=/root/.cache/pip \
   pip install -r ${ROOT}/repositories/CodeFormer/requirements.txt && \
   pip install -r ${ROOT}/repositories/k-diffusion/requirements.txt && \
-  # controlnet
-  pip install insightface
+  pip uninstall -y typing_extensions && \
+  # controlnet & typing_extensions version fix
+  pip install insightface typing_extensions==4.11.0
 
 RUN --mount=type=cache,target=/root/.cache/pip \
-  pip install xformers==0.0.25.post1 \
+  pip install xformers==0.0.28.post1 \
   git+https://github.com/TencentARC/GFPGAN.git@master \
   git+https://github.com/openai/CLIP.git@main \
   git+https://github.com/mlfoundations/open_clip.git@main
@@ -58,7 +59,7 @@ COPY . /docker
 RUN \
   # mv ${ROOT}/style.css ${ROOT}/user.css && \
   # one of the ugliest hacks I ever wrote \
-  sed -i 's/in_app_dir = .*/in_app_dir = True/g' /opt/conda/lib/python3.10/site-packages/gradio/routes.py && \
+  sed -i 's/in_app_dir = .*/in_app_dir = True/g' /opt/conda/lib/python3.11/site-packages/gradio/routes.py && \
   git config --global --add safe.directory '*'
 
 WORKDIR ${ROOT}

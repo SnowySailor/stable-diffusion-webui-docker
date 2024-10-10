@@ -2,13 +2,24 @@
 
 Run Stable Diffusion on your machine with a nice UI without any hassle!
 
-## Setup & Usage
+## Requirements
+1. WSL2, Linux, or some other way to run Docker
+1. Docker
+1. An NVIDIA or AMD GPU (CPU is supported but why would you do that to yourself)
 
-Visit the wiki for [Setup](https://github.com/AbdBarho/stable-diffusion-webui-docker/wiki/Setup) and [Usage](https://github.com/AbdBarho/stable-diffusion-webui-docker/wiki/Usage) instructions, checkout the [FAQ](https://github.com/AbdBarho/stable-diffusion-webui-docker/wiki/FAQ) page if you face any problems, or create a new issue!
+## Running
+
+The profile you choose will depend on what graphics card you have. If you have an NVIDIA card, you will be using CUDA. If you have an AMD card you will be using ROCm.
+
+### NVIDIA
+Inside this directory in your terminal window, run `docker compose --profile auto-cuda up`
+
+### AMD
+Inside this directory in your terminal window, run `docker compose --profile auto-rocm up`
 
 ## Features
 
-This repository provides multiple UIs for you to play around with stable diffusion:
+This repository serves as an easy way to install and run the automatic1111 webui with just one command and without having to worry about what specific versions of things you have to install.
 
 ### [AUTOMATIC1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
@@ -17,22 +28,6 @@ This repository provides multiple UIs for you to play around with stable diffusi
 | Text to image                                                                                              | Image to image                                                                                             | Extras                                                                                                     |
 | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | ![](https://user-images.githubusercontent.com/24505302/189541954-46afd772-d0c8-4005-874c-e2eca40c02f2.jpg) | ![](https://user-images.githubusercontent.com/24505302/189541956-5b528de7-1b5d-479f-a1db-d3f5a53afc59.jpg) | ![](https://user-images.githubusercontent.com/24505302/189541957-cf78b352-a071-486d-8889-f26952779a61.jpg) |
-
-### [InvokeAI](https://github.com/invoke-ai/InvokeAI)
-
-[Full feature list here](https://github.com/invoke-ai/InvokeAI#features), Screenshots:
-
-| Text to image                                                                                              | Image to image                                                                                             | Extras                                                                                                     |
-| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| ![](https://user-images.githubusercontent.com/24505302/195158552-39f58cb6-cfcc-4141-9995-a626e3760752.jpg) | ![](https://user-images.githubusercontent.com/24505302/195158553-152a0ab8-c0fd-4087-b121-4823bcd8d6b5.jpg) | ![](https://user-images.githubusercontent.com/24505302/195158548-e118206e-c519-4915-85d6-4c248eb10fc0.jpg) |
-
-### [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
-
-[Full feature list here](https://github.com/comfyanonymous/ComfyUI#features), Screenshot:
-
-| Workflow                                                                         |
-| -------------------------------------------------------------------------------- |
-| ![](https://github.com/comfyanonymous/ComfyUI/raw/master/comfyui_screenshot.png) |
 
 ## Contributing
 
@@ -49,8 +44,3 @@ This license of this software forbids you from sharing any content that violates
 Special thanks to everyone behind these awesome projects, without them, none of this would have been possible:
 
 - [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
-- [InvokeAI](https://github.com/invoke-ai/InvokeAI)
-- [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
-- [CompVis/stable-diffusion](https://github.com/CompVis/stable-diffusion)
-- [Sygil-webui](https://github.com/Sygil-Dev/sygil-webui)
-- and many many more.
